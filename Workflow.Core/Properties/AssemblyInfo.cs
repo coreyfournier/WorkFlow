@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SG.Workflow")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Contains wrapper and helper classes that stream line using Windows Workflow 4.5. They assist in database persistance when the workflow needs to persist as was as helping during reconstituting after an application shut down.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SG.Workflow")]

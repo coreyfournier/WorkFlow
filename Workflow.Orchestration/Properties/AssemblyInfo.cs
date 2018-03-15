@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Workflow.Orchestration")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Puts a frame work around windows workflow to accept declared events and routes them to event listners that are Workflows. All while orchestating it via queues for resilience and capacity.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Workflow.Orchestration")]
