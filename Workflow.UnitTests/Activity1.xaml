@@ -1,0 +1,107 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Workflow.UnitTests.Activity1"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:local="clr-namespace:Workflow.UnitTests"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:wc="clr-namespace:Workflow.Core;assembly=Workflow.Core"
+ xmlns:wcm="clr-namespace:Workflow.Core.Models;assembly=Workflow.Core"
+ xmlns:wcu="clr-namespace:Workflow.Core.Utilities;assembly=Workflow.Core"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="DataEventArgument" Type="InArgument(wcm:DataEventArgs)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>Workflow.UnitTests.Activity1_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>Workflow.Core.Models</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.TestPlatform.TestFramework</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions</AssemblyReference>
+      <AssemblyReference>log4net</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Workflow.Core</AssemblyReference>
+      <AssemblyReference>System.Activities.Core.Presentation</AssemblyReference>
+      <AssemblyReference>System.Activities.Presentation</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Workflow.UnitTests</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Sequence>
+    <wc:DebugWriteLine DisplayName="Write out the arguments" sap2010:WorkflowViewState.IdRef="DebugWriteLine_1">
+      <wc:DebugWriteLine.Text>
+        <InArgument x:TypeArguments="x:String">
+          <mca:CSharpValue x:TypeArguments="x:String">DataEventArgument.ToString()</mca:CSharpValue>
+        </InArgument>
+      </wc:DebugWriteLine.Text>
+    </wc:DebugWriteLine>
+    <wcu:Retry sap2010:WorkflowViewState.IdRef="Retry_1" MaxAttempts="5" RetryInterval="00:00:30">
+      <wcu:Retry.Body>
+        <ActivityAction DisplayName="Activity to retry on error">
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+            <local:FailOnceActivity sap2010:WorkflowViewState.IdRef="FailOnceActivity_1" Text="Some text here as an example" />
+          </Sequence>
+        </ActivityAction>
+      </wcu:Retry.Body>
+      <wcu:Retry.ExceptionType>
+        <InArgument x:TypeArguments="s:Type[]">
+          <mca:CSharpValue x:TypeArguments="s:Type[]">new Type[] { typeof(System.TimeoutException)}</mca:CSharpValue>
+        </InArgument>
+      </wcu:Retry.ExceptionType>
+    </wcu:Retry>
+    <wc:DebugWriteLine DisplayName="Log Completed" Text="It's complete" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2" />
+    <sap2010:WorkflowViewState.IdRef>Sequence_2</sap2010:WorkflowViewState.IdRef>
+    <sads:DebugSymbol.Symbol>d1NDOlxQcm9qZWN0c1xSZWNydWl0aW5nXE5leHRSZWxlYXNlLVRhbmdpZXJcU291cmNlXFdvcmtmbG93LlVuaXRUZXN0c1xBY3Rpdml0eTEueGFtbAw6A1MOAgEBOwVBGQIBDEIFTxECAQRQBVB+AgECPgs+ZQIBDUJGQkkCAQtMC0x2AgEJQlhCYgIBCEULRxYCAQVQOVBIAgEDRg1GgAECAQZGX0Z9AgEH</sads:DebugSymbol.Symbol>
+  </Sequence>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="DebugWriteLine_1" sap:VirtualizedContainerService.HintSize="284,22" />
+      <sap2010:ViewStateData Id="FailOnceActivity_1" sap:VirtualizedContainerService.HintSize="200,22" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="222,146">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Retry_1" sap:VirtualizedContainerService.HintSize="284,255" />
+      <sap2010:ViewStateData Id="DebugWriteLine_2" sap:VirtualizedContainerService.HintSize="284,22" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="306,503">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Workflow.UnitTests.Activity1_1" sap:VirtualizedContainerService.HintSize="346,583" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>
