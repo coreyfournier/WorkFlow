@@ -45,6 +45,8 @@ It is expected that using the orchestration you have prior knowledge of WCF and 
       </service>
 ```
 The above example expects the actual queue name to be observedqueue and subscriberqueue. This can be changed to anything.
+When using WCF ensure to register the concrete implementations by calling Workflow.Orchestration.DependencyContainer.RegisterDefaults();
+
 ## Logging
 Logging has been added via Log4net.
 
@@ -116,3 +118,4 @@ public class WorkflowHostedListner : Workflow.Orchestration.WcfHostedListners
 4. WcfHostedListners.SubscriberNotification receives the notification and executes the workflow
 
 A stubbed out example of this can be found in the unit test EventRaisedTest.
+
