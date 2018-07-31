@@ -108,3 +108,11 @@ public class WorkflowHostedListner : Workflow.Orchestration.WcfHostedListners
 * Push a new change into the Object Change Queue using ChangeObserved.
 * The change gets picked up and Subscribers is queried find if there are any subscribers for the event.
 * When subscribers are found the Workflow associated to the subscriber is executed with the data passed in.
+
+#### Logical flow of events as implemented in code.
+1. An event occurs and the item is placed in the queue IObservedChangeQueue.ChangeObserved
+2. WcfHostedListners.ChangeObserved receives the event and then notifies the subscribers
+3. Subscribers are notified by adding the events to the queue via ISubscriberQueue.SubscriberNotification
+4. WcfHostedListners.SubscriberNotification receives the notification and executes the workflow
+
+A stubbed out example of this can be found in the unit test EventRaisedTest.

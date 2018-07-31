@@ -12,8 +12,9 @@ namespace Workflow.Orchestration
     /// <summary>
     /// Functions that listen for notifications from the queue. This is abstract so it allows the consumer to host the functions in their own code.
     /// To consume it create a class that inherits this and then host the new class (type) as a wcf service. See: https://msdn.microsoft.com/en-us/library/system.servicemodel.servicehost(v=vs.110).aspx
+    /// Requires dependency injection for ISubscriberQueue.
     /// </summary>
-    public abstract class WcfHostedListners: IObservedChangeQueue, ISubscriberQueue
+    public abstract class WcfHostedListners : IObservedChangeQueue, ISubscriberQueue
     {
         private static readonly ILog _log = LogManager.GetLogger(typeof(WcfHostedListners));
         public enum Operation {
@@ -63,13 +64,13 @@ namespace Workflow.Orchestration
         [OperationBehavior(TransactionAutoComplete = true, TransactionScopeRequired = true)]
         public void ChangeObserved(DataEventArgs @event)
         {            
-            log4net.LogicalThreadContext.Properties["TransactionId"] = @event.SourceTransactionId;
-            _log.Debug("Change Observed Event=" + @event.SourceApiName);
+           log4net.LogicalThreadContext.Properties["TransactionId"] = @event.SourceTransactionId;
+            _log.Debug("Change Observed Event='" + @event.SourceApiName + "'");
 
             OperationStartedEvent?.Invoke(Operation.ChangeObserved, @event.SourceTransactionId, @event, null);
 
             //Find all subscribers and then put the notification in the queue
-            using (var subscriberQueue = new SubscriberQueue())
+            using (var subscriberQueue = DependencyContainer.Resolve<ISubscriberQueue>())
             {
                 var allSubscribers = GetSubscriberForEvent(@event.SourceApiName);
 
@@ -82,7 +83,6 @@ namespace Workflow.Orchestration
                     //For each subscriber referenced put the notification in the queue.
                     foreach (var subscriber in allSubscribers)
                     {
-                        //_log.Debug()
                         subscriberQueue.SubscriberNotification(new SubscriberNotification()
                         {
                             Event = @event,
@@ -105,7 +105,7 @@ namespace Workflow.Orchestration
         {            
             log4net.LogicalThreadContext.Properties["TransactionId"] = notification.Event.SourceTransactionId;
 
-            _log.Info("Notifying subscriber Workflow=" + notification.Subscriber.WorkFlowType.FullName);
+            _log.Info("Notifying subscriber Workflow='" + notification.Subscriber.WorkFlowType.FullName + "'");
             
             using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event))
             {
@@ -133,7 +133,7 @@ namespace Workflow.Orchestration
 
         public void Dispose()
         {
-            //Don't need to do anything
+            //Nothing to do at this time
         }
     }
 }
