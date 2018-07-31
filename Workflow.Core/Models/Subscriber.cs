@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Workflow.Core.Models
 {
     [Serializable]
+    [DataContract(Name = "Subscriber", Namespace = "http://schemas.datacontract.org/2004/07/Workflow.Core.Models")]
     public class Subscriber
     {
-
         public Subscriber() { }
 
         /// <summary>
@@ -26,35 +27,35 @@ namespace Workflow.Core.Models
             Description = description;
             SubscriberName = subscriberName;
             EventToListenToName = eventToListenTo;
-            WorkFlowName = workflow.FullName;
             WorkFlowType = new TypeWrapper(workflow);
         }
 
         /// <summary>
         /// The name of the subscriber
         /// </summary>
-        public string SubscriberName { get; set; }
+        [DataMember]
+        public virtual string SubscriberName { get; set; }
 
         /// <summary>
         /// Any description to identify what this is for.
         /// </summary>
-        public string Description { get; set; }
-        /// <summary>
-        /// Fully qualified workflow name
-        /// </summary>
-        public string WorkFlowName { get; set; }
-
+        [DataMember]
+        public virtual string Description { get; set; }
+ 
+        [DataMember]
         public TypeWrapper WorkFlowType { get; set; }
 
         /// <summary>
         /// Event to listen to
         /// </summary>
-        public string EventToListenToName { get; set; }
+        [DataMember]
+        public virtual string EventToListenToName { get; set; }
 
         /// <summary>
         /// Allows the subscription to be enabled or disabled.
         /// </summary>
-        public bool IsEnabled { get; set; }
+        [DataMember]
+        public virtual bool IsEnabled { get; set; }
 
         /// <summary>
         /// Converts the item to JSON.

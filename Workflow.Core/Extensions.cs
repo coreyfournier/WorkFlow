@@ -20,8 +20,11 @@ namespace Workflow.Core
         /// <exception cref="System.TypeLoadException"></exception>
         public static Activity GetActivity(this Subscriber subscriber)
         {
-            if (subscriber.WorkFlowName == null)
-                throw new ArgumentNullException(nameof(subscriber.WorkFlowName));       
+            if (subscriber.WorkFlowType == null)
+                throw new ArgumentNullException(nameof(subscriber.WorkFlowType));
+
+            if (subscriber.WorkFlowType.FullName == null)
+                throw new ArgumentNullException(nameof(subscriber.WorkFlowType.FullName));       
 
             return (Activity)Activator.CreateInstance(subscriber.WorkFlowType.ToType());
         }
@@ -63,7 +66,7 @@ namespace Workflow.Core
                 throw new ArgumentNullException(nameof(subscriber.WorkFlowType.AssemblyName));
 
             return new WorkflowIdentity(
-                subscriber.WorkFlowName,
+                subscriber.WorkFlowType.FullName,
                 workflowVersion,
                 subscriber.WorkFlowType.AssemblyName);
         }
@@ -90,10 +93,21 @@ namespace Workflow.Core
                 "UnitTestApplication");
         }
 
+        /// <summary>
+        /// Finds the assembly in the current domain using the format "Workflow.Orchestration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null".
+        /// If the assembly is not found, it attempts to load it. If it isn't referenced in the executing assembly, then it will return null.
+        /// </summary>
+        /// <param name="fullName"></param>
+        /// <returns></returns>
         public static Assembly GetAssemblyByName(string fullName)
-        {
-            return AppDomain.CurrentDomain.GetAssemblies().
+        {            
+            var result = AppDomain.CurrentDomain.GetAssemblies().
                    SingleOrDefault(assembly => assembly.FullName == fullName);
+
+            if (result == null)
+                return AppDomain.CurrentDomain.Load(fullName);
+            else
+                return result;
         }
 
         /// <summary>

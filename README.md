@@ -88,12 +88,19 @@ public class WorkflowHostedListner : Workflow.Orchestration.WcfHostedListners
 {
 	public WorkflowHostedListner()
 	{
-		Subscribers = new Subscriber[] {
+		
+	}
+
+	protected Subscriber[] GetSubscriberForEvent(string eventApiName)
+	{
+		var subscribers = new Subscriber[] {
                 //This subscriber is set to run when the pfa gets terminated.
                 new Subscriber("Name of Subscriber",
                 "Event-Name", 
                 typeof(/*Activity class*/))
             };
+
+		return subscribers.Where(x=> x.EventToListenToName == eventApiName && x.IsEnabled).ToArray();
 	}
 }
 ```

@@ -14,27 +14,13 @@ namespace Workflow.Core.Models
     [DataContract]
     public class DataEventArgs<T> : DataEventArgs
     {
-        private T _data;
-        public DataEventArgs(T data)
+        public DataEventArgs(T data) : base(data, SeralizeAs.Xml)
         {
-            _data = data;
-            base.Data = Seralizer.ObjectToXmlString(data);
+            
         }
 
         public DataEventArgs() : base() { }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T1"></typeparam>
-        /// <returns></returns>
-        /// <exception cref="InvalidCastException"></exception>
-        public override T1 DataToType<T1>()
-        {
-            if (typeof(T1).FullName != typeof(T).FullName)
-                throw new InvalidCastException("The templated type of the class is not the same as the type of DataToType");
-
-            return _data as T1;
-        }
+        
     }
 }

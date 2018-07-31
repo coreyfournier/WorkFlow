@@ -1,9 +1,10 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 
 namespace Workflow.Orchestration.Queues
 {
     [ServiceContract]
-    public interface ISubscriberQueue
+    public interface ISubscriberQueue : IDisposable
     {
         /// <summary>
         /// Puts the notification in the queue and allows it to be removed.

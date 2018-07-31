@@ -1,10 +1,11 @@
-﻿using System.ServiceModel;
+﻿using System;
+using System.ServiceModel;
 using Workflow.Core.Models;
 
 namespace Workflow.Orchestration.Queues
 {
     [ServiceContract]
-    public interface IObservedChangeQueue
+    public interface IObservedChangeQueue : IDisposable
     {
         /// <summary>
         /// Called to send and receive a new event

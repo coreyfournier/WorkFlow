@@ -35,6 +35,7 @@ namespace Workflow.Orchestration.Queues
             if (@event.SourceType == null)
                 throw new ArgumentNullException(nameof(@event.SourceType));
 
+            _log.Debug("New event observed ApiName=" + @event.SourceApiName);
 
             try
             {

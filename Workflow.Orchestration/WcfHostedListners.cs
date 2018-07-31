@@ -20,10 +20,13 @@ namespace Workflow.Orchestration
             ChangeObserved,
             SubscriberNotification
         }
+
         /// <summary>
-        /// A simple way to get and set the subscribers in the inherited class.
+        /// Gets all subscribers to the event specified. 
         /// </summary>
-        protected virtual Subscriber[] Subscribers { get; set; }
+        /// <param name="eventApiName">Api name of the event</param>
+        /// <returns></returns>
+        protected abstract Subscriber[] GetSubscriberForEvent(string eventApiName);
 
         /// <summary>
         /// Notification when the operation started and by what transaction.
@@ -68,15 +71,25 @@ namespace Workflow.Orchestration
             //Find all subscribers and then put the notification in the queue
             using (var subscriberQueue = new SubscriberQueue())
             {
-                //For each subscriber referenced put the notification in the queue.
-                foreach (var subscriber in Subscribers.Where(item => item.IsEnabled && item.EventToListenToName == @event.SourceApiName))
+                var allSubscribers = GetSubscriberForEvent(@event.SourceApiName);
+
+                if (allSubscribers == null)
                 {
-                    subscriberQueue.SubscriberNotification(new SubscriberNotification()
+                    _log.Warn("No subscribers found for the SourceApiName=" + @event.SourceApiName + ". Maybe it is disabled? This event will now be considered as handled so it does not fill up the queue.");
+                }
+                else
+                {
+                    //For each subscriber referenced put the notification in the queue.
+                    foreach (var subscriber in allSubscribers)
                     {
-                        Event = @event,
-                        CreatedDate = DateTime.Now,
-                        Subscriber = subscriber
-                    });
+                        //_log.Debug()
+                        subscriberQueue.SubscriberNotification(new SubscriberNotification()
+                        {
+                            Event = @event,
+                            CreatedDate = DateTime.Now,
+                            Subscriber = subscriber
+                        });
+                    }
                 }
             }
 
@@ -92,7 +105,7 @@ namespace Workflow.Orchestration
         {            
             log4net.LogicalThreadContext.Properties["TransactionId"] = notification.Event.SourceTransactionId;
 
-            _log.Info("Notifying subscriber Workflow=" + notification.Subscriber.WorkFlowName); //ActivityId=" + activity.Id + " ActivityName=" + activity.DisplayName
+            _log.Info("Notifying subscriber Workflow=" + notification.Subscriber.WorkFlowType.FullName);
             
             using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event))
             {
@@ -118,9 +131,9 @@ namespace Workflow.Orchestration
             }            
         }
 
-        private void Application_ActivityStartedEvent(Guid instanceId, System.Activities.Activity activity)
+        public void Dispose()
         {
-            throw new NotImplementedException();
+            //Don't need to do anything
         }
     }
 }

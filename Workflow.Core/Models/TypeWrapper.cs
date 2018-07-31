@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,13 +28,13 @@ namespace Workflow.Core.Models
         /// Full name of the type. 
         /// Ex: Workflow.Orchestration.TestActivity
         /// </summary>
-        public string FullName { get; set; }
+        public virtual string FullName { get; set; }
 
         /// <summary>
         /// Full name of the assembly.
         /// EX: "Workflow.Orchestration, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
         /// </summary>
-        public string AssemblyName { get; set; }
+        public virtual string AssemblyName { get; set; }
 
         /// <summary>
         /// Takes the full name and the assembly and get the Type.
@@ -49,6 +50,15 @@ namespace Workflow.Core.Models
                 throw new System.TypeLoadException("Unable to find '"+ AssemblyName + "' in the App Domain");
 
             return assembly.GetType(FullName, true, true);
+        }
+
+        /// <summary>
+        /// Converts the item to JSON.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Newtonsoft.Json.JsonConvert.SerializeObject(this);
         }
     }
 }
