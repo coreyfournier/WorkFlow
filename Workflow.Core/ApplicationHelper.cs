@@ -198,7 +198,7 @@ namespace Workflow.Core
         private void AbortedEvent(WorkflowApplicationAbortedEventArgs args)
         {
             _reloadWaitHandler.Set();
-            _log.Debug("Aborted InstanceId=" + args.InstanceId.ToString());
+            _log.Error("Aborted InstanceId=" + args.InstanceId.ToString(), args.Reason);
             ActivityAbortedEvent?.Invoke(args);
         }
         private void UnloadedEvent(WorkflowApplicationEventArgs args)
