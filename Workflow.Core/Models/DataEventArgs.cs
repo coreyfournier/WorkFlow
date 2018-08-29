@@ -78,7 +78,7 @@ namespace Workflow.Core.Models
         /// </summary>
         /// <typeparam name="T">Type to convert to</typeparam>
         /// <returns>Concrete type</returns>        
-        public virtual T DataToType<T>() where T : class
+        public virtual T DataToType<T>()
         {
             if (Seralization == SeralizeAs.Xml)
                 return Seralizer.StringToObject<T>(Data);
@@ -94,7 +94,7 @@ namespace Workflow.Core.Models
         /// <typeparam name="T"></typeparam>
         /// <param name="data"></param>
         /// <param name="seralization"></param>
-        public void SetData<T>(T data, SeralizeAs seralization) where T : class
+        public void SetData<T>(T data, SeralizeAs seralization)
         {
             Data = Encode(data, seralization);
             Seralization = seralization;
@@ -107,7 +107,7 @@ namespace Workflow.Core.Models
         /// <param name="data"></param>
         /// <param name="seralization"></param>
         /// <returns></returns>
-        public static string Encode<T>(T data, SeralizeAs seralization) where T: class
+        public static string Encode<T>(T data, SeralizeAs seralization)
         {
             if (seralization == SeralizeAs.Xml)
                 return Seralizer.ObjectToXmlString<T>(data);
