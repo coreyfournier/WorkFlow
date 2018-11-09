@@ -21,7 +21,8 @@ namespace Workflow.Core.Models
         /// <param name="workflow"></param>
         /// <param name="description"></param>
         /// <param name="enabled"></param>
-        public Subscriber(string subscriberName, string eventToListenTo, Type workflow, string description = "", bool enabled = true)
+        /// <param name="configuration">Json string configuration</param>
+        public Subscriber(string subscriberName, string eventToListenTo, Type workflow, string description = "", bool enabled = true, string configuration = "")
         {
             IsEnabled = enabled;
             Description = description;
@@ -56,6 +57,33 @@ namespace Workflow.Core.Models
         /// </summary>
         [DataMember]
         public virtual bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Json string containing a configuration that will get passed to the workflow to change behavior. 
+        /// Examples are Urls, emails, directories etc..
+        /// If this is a type, the Configuration Type should be set, so validation can be done.
+        /// </summary>
+        [DataMember]
+        public virtual string Configuration { get; set; }
+
+        /// <summary>
+        /// Data type for the configuration. This can be used for validation
+        /// </summary>
+        [DataMember]
+        public TypeWrapper ConfigurationType { get; set; }
+
+        /// <summary>
+        /// Gets the configuration as the specified type using serilization
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns>Null if Configuration is null or empty</returns>
+        public virtual T ConfigurationToType<T>()
+        {
+            if (string.IsNullOrEmpty(Configuration))
+                return default(T);
+            else
+                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Configuration);
+        }
 
         /// <summary>
         /// Converts the item to JSON.

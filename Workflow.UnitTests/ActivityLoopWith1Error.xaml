@@ -16,8 +16,10 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="DataEventArgument" Type="InArgument(wcm:DataEventArgs)" />
+    <x:Property Name="SubscriberArgument" Type="InArgument(wcm:Subscriber)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>Workflow.UnitTests.ActivityLoopWith1Error_1</sap2010:WorkflowViewState.IdRef>
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System</x:String>
@@ -55,62 +57,56 @@
       <AssemblyReference>Workflow.UnitTests</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Flowchart StartNode="{x:Reference __ReferenceID0}">
-    <FlowStep x:Name="__ReferenceID0">
-      <ForEach x:TypeArguments="x:Int32">
-        <ForEach.Values>
-          <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">
-            <mca:CSharpValue x:TypeArguments="scg:IEnumerable(x:Int32)">DataEventArgument.DataToType&lt;int[]&gt;()</mca:CSharpValue>
-          </InArgument>
-        </ForEach.Values>
-        <ActivityAction x:TypeArguments="x:Int32">
-          <ActivityAction.Argument>
-            <DelegateInArgument x:TypeArguments="x:Int32" Name="item" />
-          </ActivityAction.Argument>
-          <Sequence>
-            <wcu:Retry MaxAttempts="5" RetryInterval="00:00:05">
-              <wcu:Retry.Body>
-                <ActivityAction DisplayName="Activity to retry on error">
-                  <Sequence>
-                    <wc:DebugWriteLine DisplayName="Start">
-                      <wc:DebugWriteLine.Text>
-                        <InArgument x:TypeArguments="x:String">
-                          <mca:CSharpValue x:TypeArguments="x:String">"Start working on item: " + item</mca:CSharpValue>
-                        </InArgument>
-                      </wc:DebugWriteLine.Text>
-                      <sap2010:WorkflowViewState.IdRef>DebugWriteLine_1</sap2010:WorkflowViewState.IdRef>
-                    </wc:DebugWriteLine>
-                    <local:FailOnceActivity Text="{x:Null}" sap2010:WorkflowViewState.IdRef="FailOnceActivity_1" />
-                    <wc:DebugWriteLine DisplayName="Finish">
-                      <wc:DebugWriteLine.Text>
-                        <InArgument x:TypeArguments="x:String">
-                          <mca:CSharpValue x:TypeArguments="x:String">"Finished working on item: " + item</mca:CSharpValue>
-                        </InArgument>
-                      </wc:DebugWriteLine.Text>
-                      <sap2010:WorkflowViewState.IdRef>DebugWriteLine_2</sap2010:WorkflowViewState.IdRef>
-                    </wc:DebugWriteLine>
-                    <sap2010:WorkflowViewState.IdRef>Sequence_1</sap2010:WorkflowViewState.IdRef>
-                  </Sequence>
-                </ActivityAction>
-              </wcu:Retry.Body>
-              <wcu:Retry.ExceptionType>
-                <InArgument x:TypeArguments="s:Type[]">
-                  <mca:CSharpValue x:TypeArguments="s:Type[]">new Type[] { typeof(System.TimeoutException) }</mca:CSharpValue>
-                </InArgument>
-              </wcu:Retry.ExceptionType>
-              <sap2010:WorkflowViewState.IdRef>Retry_1</sap2010:WorkflowViewState.IdRef>
-            </wcu:Retry>
-            <sap2010:WorkflowViewState.IdRef>Sequence_2</sap2010:WorkflowViewState.IdRef>
-          </Sequence>
-        </ActivityAction>
-        <sap2010:WorkflowViewState.IdRef>ForEach`1_1</sap2010:WorkflowViewState.IdRef>
-      </ForEach>
-      <sap2010:WorkflowViewState.IdRef>FlowStep_1</sap2010:WorkflowViewState.IdRef>
-    </FlowStep>
-    <sap2010:WorkflowViewState.IdRef>Flowchart_1</sap2010:WorkflowViewState.IdRef>
-    <sads:DebugSymbol.Symbol>d2BDOlxQcm9qZWN0c1xSZWNydWl0aW5nXE5leHRSZWxlYXNlLVRhbmdpZXJcU291cmNlXFdvcmtmbG93LlVuaXRUZXN0c1xBY3Rpdml0eUxvb3BXaXRoMUVycm9yLnhhbWwOOgNwDwIBATwHaxECAQI/DT+GAQIBFEYLaBYCAQNHDWYZAgEERyRHJwIBE2ITYn8CARBHNkdAAgEPShNdHgIBBUsVUikCAQtTFVN0AgEKVBVbKQIBBk4bTnkCAQxXG1d8AgEH</sads:DebugSymbol.Symbol>
+  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.StartNode>
+      <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+        <ForEach x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+          <ForEach.Values>
+            <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">
+              <mca:CSharpValue x:TypeArguments="scg:IEnumerable(x:Int32)">DataEventArgument.DataToType&lt;int[]&gt;()</mca:CSharpValue>
+            </InArgument>
+          </ForEach.Values>
+          <ActivityAction x:TypeArguments="x:Int32">
+            <ActivityAction.Argument>
+              <DelegateInArgument x:TypeArguments="x:Int32" Name="item" />
+            </ActivityAction.Argument>
+            <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+              <wcu:Retry sap2010:WorkflowViewState.IdRef="Retry_1" MaxAttempts="5" RetryInterval="00:00:05">
+                <wcu:Retry.Body>
+                  <ActivityAction DisplayName="Activity to retry on error">
+                    <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+                      <wc:DebugWriteLine DisplayName="Start" sap2010:WorkflowViewState.IdRef="DebugWriteLine_1">
+                        <wc:DebugWriteLine.Text>
+                          <InArgument x:TypeArguments="x:String">
+                            <mca:CSharpValue x:TypeArguments="x:String">"Start working on item: " + item</mca:CSharpValue>
+                          </InArgument>
+                        </wc:DebugWriteLine.Text>
+                      </wc:DebugWriteLine>
+                      <local:FailOnceActivity Text="{x:Null}" sap2010:WorkflowViewState.IdRef="FailOnceActivity_1" />
+                      <wc:DebugWriteLine DisplayName="Finish" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2">
+                        <wc:DebugWriteLine.Text>
+                          <InArgument x:TypeArguments="x:String">
+                            <mca:CSharpValue x:TypeArguments="x:String">"Finished working on item: " + item</mca:CSharpValue>
+                          </InArgument>
+                        </wc:DebugWriteLine.Text>
+                      </wc:DebugWriteLine>
+                    </Sequence>
+                  </ActivityAction>
+                </wcu:Retry.Body>
+                <wcu:Retry.ExceptionType>
+                  <InArgument x:TypeArguments="s:Type[]">
+                    <mca:CSharpValue x:TypeArguments="s:Type[]">new Type[] { typeof(System.TimeoutException) }</mca:CSharpValue>
+                  </InArgument>
+                </wcu:Retry.ExceptionType>
+              </wcu:Retry>
+            </Sequence>
+          </ActivityAction>
+        </ForEach>
+      </FlowStep>
+    </Flowchart.StartNode>
+    <x:Reference>__ReferenceID0</x:Reference>
+    <sads:DebugSymbol.Symbol>d1xDOlxVc2Vyc1xjb3JleV9mb3Vybmllclxzb3VyY2VccmVwb3NcV29ya0Zsb3dcV29ya2Zsb3cuVW5pdFRlc3RzXEFjdGl2aXR5TG9vcFdpdGgxRXJyb3IueGFtbA48A20PAgEBPwloEwIBAkIPQogBAgEXSQ1mGAIBA0oPZRsCAQRKUEpTAgEWYhVigQECARJKYkpsAgERTRVdIAIBBU4XVCsCAQxVF1V2AgELVhdcKwIBBlEdUXsCAQ1ZHVl+AgEH</sads:DebugSymbol.Symbol>
   </Flowchart>
-  <sap2010:WorkflowViewState.IdRef>Workflow.UnitTests.ActivityLoopWith1Error_1</sap2010:WorkflowViewState.IdRef>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
       <sap2010:ViewStateData Id="DebugWriteLine_1" sap:VirtualizedContainerService.HintSize="200,22.4" />
@@ -131,7 +127,7 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="337.6,659.2">
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="200,51">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
@@ -142,21 +138,21 @@
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <av:Point x:Key="ShapeLocation">200,123.6</av:Point>
-            <av:Size x:Key="ShapeSize">200,52.8</av:Size>
+            <av:Size x:Key="ShapeSize">200,51</av:Size>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614.4,636.8">
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614,636">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
             <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
-            <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+            <av:Size x:Key="ShapeSize">60,75</av:Size>
             <av:PointCollection x:Key="ConnectorLocation">300,77.7 300,123.6</av:PointCollection>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="Workflow.UnitTests.ActivityLoopWith1Error_1" sap:VirtualizedContainerService.HintSize="654.4,716.8" />
+      <sap2010:ViewStateData Id="Workflow.UnitTests.ActivityLoopWith1Error_1" sap:VirtualizedContainerService.HintSize="654,716" />
     </sap2010:ViewStateManager>
   </sap2010:WorkflowViewState.ViewStateManager>
 </Activity>

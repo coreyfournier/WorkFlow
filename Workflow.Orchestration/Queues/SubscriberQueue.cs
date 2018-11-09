@@ -15,7 +15,7 @@ namespace Workflow.Orchestration.Queues
         }
 
         /// <summary>
-        /// Puts the notification in the queue
+        /// Puts the notification in the queue. Properties on the input are validated
         /// </summary>
         /// <param name="notification"></param>
         /// <exception cref="ArgumentNullException"></exception>
@@ -28,7 +28,7 @@ namespace Workflow.Orchestration.Queues
                 throw new ArgumentNullException(nameof(notification.Event));
             if(notification.Subscriber == null)
                 throw new ArgumentNullException(nameof(notification.Subscriber));
-
+            
             try
             {
                 this.Channel.SubscriberNotification(notification);

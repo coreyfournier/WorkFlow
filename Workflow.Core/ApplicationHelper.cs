@@ -18,6 +18,12 @@ namespace Workflow.Core
         /// Expected argument name of all activies.
         /// </summary>
         public const string DataEventArgumentName = "DataEventArgument";
+
+        /// <summary>
+        /// Expected argument name for the subscriber information
+        /// </summary>
+        public const string SubscriberArgumentName = "SubscriberArgument";
+
         static readonly ILog _log = LogManager.GetLogger(typeof(ApplicationHelper));
         /// <summary>
         /// Wait handle used for workflows that are reconstitued.
@@ -78,6 +84,30 @@ namespace Workflow.Core
         {
             
         }
+
+        /// <summary>
+        /// Creates the application instance with event handlers. Workflow must accept 'DataEventArgument' as a parameter of type DataEventArgs and 'SubscriberArgument' of type Subscriber
+        /// Relies on: PersistanceHelper.WorkflowHostTypePropertyName, PersistanceHelper.HostTypeName, PersistanceHelper.Store
+        /// </summary>
+        /// <param name="activity"></param>
+        /// <param name="identity"></param>
+        /// <param name="args"></param>
+        /// <param name="subscriber">Subscriber information that includes configuration information</param>
+        /// <remarks>DO NOT get the ID of the workflow instance before it's used otherwise on unpersisted workflows they will not work.</remarks>
+        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="ArgumentNullException"></exception>
+        public ApplicationHelper(Activity activity, WorkflowIdentity identity, DataEventArgs args, Subscriber subscriber) :
+            this(activity, identity,
+                //Supply null arguments if they are passed in as null. Other wise default
+                args == null ? null : new Dictionary<string, object> {
+                    { DataEventArgumentName, args },
+                    { SubscriberArgumentName, subscriber }
+                })
+        {
+
+        }
+
+
         /// <summary>
         /// Creates the application instance with event handlers. Not using the DataEventArgument will prevent transaction id's from propagating through log4net.
         /// Relies on: PersistanceHelper.WorkflowHostTypePropertyName, PersistanceHelper.HostTypeName, PersistanceHelper.Store

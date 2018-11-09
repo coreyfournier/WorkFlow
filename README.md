@@ -11,7 +11,7 @@ The project is broken into 2 major and 2 minor parts.
 1. Workflow.Core
 The abstraction is here. You can start a workflow, and resume it here. 
 2. Workflow.Orchestration
-The project that handles Events and Notifications with MSMQ. Workflows are expected to accept DataEventArgs
+The project that handles Events and Notifications with MSMQ. Workflows are expected to accept DataEventArgs using the parameter name 'DataEventArgument' and subscriber informaiton 'SubscriberArgument' of type Subscriber. The subscriber arguments allows the activiy to know who subscribed and any special configuration that would allows it's behavior to change. Such as an email address, directory location, url.
 3. Workflow.ScratchPad
 Simple program to test execution of the code in a more real world setting. 
 4. Workflow.UnitTests

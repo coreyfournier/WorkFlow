@@ -15,6 +15,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="DataEventArgument" Type="InArgument(wcm:DataEventArgs)" />
+    <x:Property Name="SubscriberArgument" Type="InArgument(wcm:Subscriber)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>Workflow.UnitTests.Activity1_1</sap2010:WorkflowViewState.IdRef>
@@ -55,7 +56,7 @@
       <AssemblyReference>Workflow.UnitTests</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence>
+  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
     <wc:DebugWriteLine DisplayName="Write out the arguments" sap2010:WorkflowViewState.IdRef="DebugWriteLine_1">
       <wc:DebugWriteLine.Text>
         <InArgument x:TypeArguments="x:String">
@@ -77,9 +78,8 @@
         </InArgument>
       </wcu:Retry.ExceptionType>
     </wcu:Retry>
-    <wc:DebugWriteLine DisplayName="Log Completed" Text="It's complete" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2" />
-    <sap2010:WorkflowViewState.IdRef>Sequence_2</sap2010:WorkflowViewState.IdRef>
-    <sads:DebugSymbol.Symbol>d1NDOlxQcm9qZWN0c1xSZWNydWl0aW5nXE5leHRSZWxlYXNlLVRhbmdpZXJcU291cmNlXFdvcmtmbG93LlVuaXRUZXN0c1xBY3Rpdml0eTEueGFtbAw6A1MOAgEBOwVBGQIBDEIFTxECAQRQBVB+AgECPgs+ZQIBDUJGQkkCAQtMC0x2AgEJQlhCYgIBCEULRxYCAQVQOVBIAgEDRg1GgAECAQZGX0Z9AgEH</sads:DebugSymbol.Symbol>
+    <wc:DebugWriteLine DisplayName="Log Completed" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2" Text="It's complete" />
+    <sads:DebugSymbol.Symbol>d09DOlxVc2Vyc1xjb3JleV9mb3Vybmllclxzb3VyY2VccmVwb3NcV29ya0Zsb3dcV29ya2Zsb3cuVW5pdFRlc3RzXEFjdGl2aXR5MS54YW1sDDsDUw4CAQE8BUIZAgENQwVQEQIBBFEFUX4CAQI/Cz9lAgEOQ0ZDSQIBDE0LTXYCAQlDWENiAgEIRgtIFgIBBVFsUXsCAQNHDUeAAQIBBkdfR30CAQc=</sads:DebugSymbol.Symbol>
   </Sequence>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

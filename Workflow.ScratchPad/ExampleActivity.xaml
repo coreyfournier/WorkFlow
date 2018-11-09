@@ -13,6 +13,7 @@
  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <x:Members>
     <x:Property Name="DataEventArgument" Type="InArgument(wcm:DataEventArgs)" />
+    <x:Property Name="SubscriberArgument" Type="InArgument(wcm:Subscriber)" />
   </x:Members>
   <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
   <sap2010:WorkflowViewState.IdRef>Workflow.ScrachPad.ExampleActivity_1</sap2010:WorkflowViewState.IdRef>
@@ -62,20 +63,17 @@
           </wc:DebugWriteLine.Text>
         </wc:DebugWriteLine>
         <FlowStep.Next>
-          <FlowStep x:Name="__ReferenceID1">
-            <Delay DisplayName="Delay to cause persistance">
+          <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_3">
+            <Delay DisplayName="Delay to cause persistance" sap2010:WorkflowViewState.IdRef="Delay_1">
               <InArgument x:TypeArguments="x:TimeSpan">
                 <mca:CSharpValue x:TypeArguments="x:TimeSpan">new TimeSpan(0,0,5)</mca:CSharpValue>
               </InArgument>
-              <sap2010:WorkflowViewState.IdRef>Delay_1</sap2010:WorkflowViewState.IdRef>
             </Delay>
             <FlowStep.Next>
-              <FlowStep x:Name="__ReferenceID2">
-                <wc:DebugWriteLine DisplayName="Log all done" Text="Finished persistance" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2" />
-                <sap2010:WorkflowViewState.IdRef>FlowStep_2</sap2010:WorkflowViewState.IdRef>
+              <FlowStep x:Name="__ReferenceID2" sap2010:WorkflowViewState.IdRef="FlowStep_2">
+                <wc:DebugWriteLine DisplayName="Log all done" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2" Text="Finished persistance" />
               </FlowStep>
             </FlowStep.Next>
-            <sap2010:WorkflowViewState.IdRef>FlowStep_3</sap2010:WorkflowViewState.IdRef>
           </FlowStep>
         </FlowStep.Next>
       </FlowStep>
@@ -83,7 +81,7 @@
     <x:Reference>__ReferenceID0</x:Reference>
     <x:Reference>__ReferenceID1</x:Reference>
     <x:Reference>__ReferenceID2</x:Reference>
-    <sads:DebugSymbol.Symbol>d1lDOlxQcm9qZWN0c1xSZWNydWl0aW5nXE5leHRSZWxlYXNlLVRhbmdpZXJcU291cmNlXFdvcmtmbG93LlNjcmFjaFBhZFxFeGFtcGxlQWN0aXZpdHkueGFtbAc2A1cPAgEBOQk/HQIBB0INRxUCAQRKEUqQAQIBAjwPPGkCAQhEEURkAgEFSkRKWgIBAw==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1ZDOlxVc2Vyc1xjb3JleV9mb3Vybmllclxzb3VyY2VccmVwb3NcV29ya0Zsb3dcV29ya2Zsb3cuU2NyYXRjaFBhZFxFeGFtcGxlQWN0aXZpdHkueGFtbAc3A1UPAgEBOglAHQIBCEMNRxUCAQRKEUqQAQIBAj0PPWkCAQlFEUVkAgEFSndKjQECAQM=</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>

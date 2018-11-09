@@ -58,14 +58,14 @@ namespace Workflow.Orchestration
         public event OperationEnded OperationEndedEvent;
 
         /// <summary>
-        /// A new change occured. Find the subscribers and put the notification in the queue
+        /// A new change occured. Find the subscribers and put the notification in the queue. Depends on ISubscriberQueue
         /// </summary>
         /// <param name="event"></param>
         [OperationBehavior(TransactionAutoComplete = true, TransactionScopeRequired = true)]
         public void ChangeObserved(DataEventArgs @event)
         {            
            log4net.LogicalThreadContext.Properties["TransactionId"] = @event.SourceTransactionId;
-            _log.Debug("Change Observed Event='" + @event.SourceApiName + "'");
+            _log.Debug($"Change Observed Event='{@event.SourceApiName}'");
 
             OperationStartedEvent?.Invoke(Operation.ChangeObserved, @event.SourceTransactionId, @event, null);
 
@@ -76,7 +76,7 @@ namespace Workflow.Orchestration
 
                 if (allSubscribers == null)
                 {
-                    _log.Warn("No subscribers found for the SourceApiName=" + @event.SourceApiName + ". Maybe it is disabled? This event will now be considered as handled so it does not fill up the queue.");
+                    _log.Warn($"No subscribers found for the SourceApiName={@event.SourceApiName}. Maybe it is disabled? This event will now be considered as handled so it does not fill up the queue.");
                 }
                 else
                 {
@@ -105,9 +105,9 @@ namespace Workflow.Orchestration
         {            
             log4net.LogicalThreadContext.Properties["TransactionId"] = notification.Event.SourceTransactionId;
 
-            _log.Info("Notifying subscriber Workflow='" + notification.Subscriber.WorkFlowType.FullName + "'");
-            
-            using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event))
+            _log.Info($"Notifying Subscriber='{notification.Subscriber.SubscriberName}' via Workflow='{notification.Subscriber.WorkFlowType.FullName}'");            
+
+            using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event, notification.Subscriber))
             {
                 if (OperationEndedEvent != null)
                 {
