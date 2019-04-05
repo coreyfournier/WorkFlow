@@ -187,23 +187,18 @@ namespace Workflow.Core
         /// <summary>
         /// Reloads the workflow starting from a bookmark.
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="bookmarkName">The name of the bookmark to be resumed.</param>
         /// <param name="value">An object passed as a parameter to the method that is invoked when the bookmark resumes.</param>
         /// <returns>NotFound | NotReady | Success</returns>
         /// <exception cref="System.Runtime.DurableInstancing.InstanceLockedException"></exception>
         /// <exception cref="ArgumentNullException"></exception>
-        public BookmarkResumptionResult ReloadAndRun(Guid id, string bookmarkName, object value)
+        public BookmarkResumptionResult ReloadAndRun(string bookmarkName, object value)
         {
-            if (id == null)
-                throw new ArgumentNullException(nameof(id));
-
             if (string.IsNullOrEmpty(bookmarkName))
                 throw new ArgumentNullException(nameof(bookmarkName));
 
-            _log.Info("Attempting to readload activity Id=" + id.ToString() + " at bookmark=" + bookmarkName);
+            _log.Info("Attempting to readload bookmark=" + bookmarkName);
 
-            _application.Load(id, _timeOut);
 
             ActivityStartedEvent?.Invoke(id, _application.WorkflowDefinition);
 
