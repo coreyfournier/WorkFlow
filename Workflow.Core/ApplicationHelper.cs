@@ -32,13 +32,6 @@ namespace Workflow.Core
         readonly WorkflowApplication _application;        
 
         /// <summary>
-        /// Public access to the underlying application.
-        /// </summary>
-        public WorkflowApplication Application {
-            get { return _application; }
-        }
-
-        /// <summary>
         /// Time out to start the process. 30 seconds.
         /// </summary>
         public static readonly TimeSpan _timeOut = new TimeSpan(0, 0, 30);
@@ -212,7 +205,6 @@ namespace Workflow.Core
 
 
             ActivityStartedEvent?.Invoke(id, _application.WorkflowDefinition);
-            _application.Run(_timeOut);
 
             return _application.ResumeBookmark(bookmarkName, value, _timeOut);
         }
