@@ -229,8 +229,9 @@ namespace Workflow.Core
 
         private void IdleEvent(WorkflowApplicationIdleEventArgs args)
         {
-            _reloadWaitHandler.Set();
-            _log.Debug("Idle InstanceId=" + args.InstanceId.ToString());
+            _log.Debug($"Idle InstanceId={args.InstanceId.ToString()} Unloading...");
+            _application.Unload();
+            _reloadWaitHandler.Set();                        
         }
         private void AbortedEvent(WorkflowApplicationAbortedEventArgs args)
         {
