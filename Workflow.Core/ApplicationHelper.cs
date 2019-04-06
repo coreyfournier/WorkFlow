@@ -39,6 +39,11 @@ namespace Workflow.Core
         }
 
         /// <summary>
+        /// When the activity goes idle, it will be unloaded from the application. Defaults to false
+        /// </summary>
+        public bool UnloadOnIdle{ get; set; }
+
+        /// <summary>
         /// Time out to start the process. 30 seconds.
         /// </summary>
         public static readonly TimeSpan _timeOut = new TimeSpan(0, 0, 30);
@@ -134,6 +139,9 @@ namespace Workflow.Core
 
             if (PersistanceHelper.Store == null)
                 throw new InvalidOperationException("PersistanceHelper.Store is not set. ");
+            
+            //Default to false
+            UnloadOnIdle = false;
 
             if (extensibleArguments == null)
             {
@@ -230,7 +238,9 @@ namespace Workflow.Core
         private void IdleEvent(WorkflowApplicationIdleEventArgs args)
         {
             _log.Debug($"Idle InstanceId={args.InstanceId.ToString()} Unloading...");
-            _application.Unload();
+            
+            if (UnloadOnIdle)
+                _application.Unload();
             _reloadWaitHandler.Set();                        
         }
         private void AbortedEvent(WorkflowApplicationAbortedEventArgs args)
