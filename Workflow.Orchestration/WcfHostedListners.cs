@@ -23,6 +23,11 @@ namespace Workflow.Orchestration
         }
 
         /// <summary>
+        /// When the activity goes idle, it will be unloaded from the application. Defaults to false
+        /// </summary>
+        public bool UnloadOnIdle { get; set; }
+
+        /// <summary>
         /// Gets all subscribers to the event specified. 
         /// </summary>
         /// <param name="eventApiName">Api name of the event</param>
@@ -109,6 +114,8 @@ namespace Workflow.Orchestration
 
             using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event, notification.Subscriber))
             {
+                application.UnloadOnIdle = UnloadOnIdle;
+
                 if (OperationEndedEvent != null)
                 {
                     application.ActivityStartedEvent += (Guid instanceId, System.Activities.Activity activity) =>
