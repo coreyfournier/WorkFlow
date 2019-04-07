@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Activities;
 using System.Linq;
 using System.ServiceModel;
 using Workflow.Core;
@@ -23,9 +24,9 @@ namespace Workflow.Orchestration
         }
 
         /// <summary>
-        /// When the activity goes idle, it will be unloaded from the application. Defaults to false
+        /// When the activity goes idle, it will be unloaded from the application. Defaults to Unloads
         /// </summary>
-        public bool UnloadOnIdle { get; set; }
+        public PersistableIdleAction IdleAction { get; set; } = PersistableIdleAction.Unload;
 
         /// <summary>
         /// Gets all subscribers to the event specified. 
@@ -114,7 +115,7 @@ namespace Workflow.Orchestration
 
             using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event, notification.Subscriber))
             {
-                application.UnloadOnIdle = UnloadOnIdle;
+                application.IdleAction = IdleAction;
 
                 if (OperationEndedEvent != null)
                 {

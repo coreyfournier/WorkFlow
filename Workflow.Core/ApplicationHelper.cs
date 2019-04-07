@@ -39,9 +39,9 @@ namespace Workflow.Core
         }
 
         /// <summary>
-        /// When the activity goes idle, it will be unloaded from the application. Defaults to false
+        /// What to do when the workflow calls AbleToPersist. Default action is to Persist
         /// </summary>
-        public bool UnloadOnIdle{ get; set; }
+        public PersistableIdleAction IdleAction { get; set; } = PersistableIdleAction.Persist;
 
         /// <summary>
         /// Time out to start the process. 30 seconds.
@@ -139,10 +139,7 @@ namespace Workflow.Core
 
             if (PersistanceHelper.Store == null)
                 throw new InvalidOperationException("PersistanceHelper.Store is not set. ");
-            
-            //Default to false
-            UnloadOnIdle = false;
-
+                        
             if (extensibleArguments == null)
             {
                 //This should only be used when the workflow is reconstitued.
@@ -155,6 +152,7 @@ namespace Workflow.Core
                     extensibleArguments,
                     identity);
             }
+            
 
             //Owner of the workflow activity
             Dictionary<XName, object> wfScope = new Dictionary<XName, object>
@@ -164,7 +162,7 @@ namespace Workflow.Core
                     PersistanceHelper.HostTypeName
                 }
             };
-
+            
             _application.InstanceStore = PersistanceHelper.Store;
             _application.OnUnhandledException = UnhandledExceptionEvent;
             _application.PersistableIdle = AbleToPersistEvent;
@@ -238,9 +236,13 @@ namespace Workflow.Core
         private void IdleEvent(WorkflowApplicationIdleEventArgs args)
         {
             _log.Debug($"Idle InstanceId={args.InstanceId.ToString()} Unloading...");
-            
-            if (UnloadOnIdle)
-                _application.Unload();
+
+            if (args.Bookmarks != null)
+            {
+                foreach (var bookmark in args.Bookmarks)
+                    _log.Debug($"Bookmark={bookmark.BookmarkName} Owner={bookmark.OwnerDisplayName}");
+            }
+
             _reloadWaitHandler.Set();                        
         }
         private void AbortedEvent(WorkflowApplicationAbortedEventArgs args)
@@ -254,7 +256,6 @@ namespace Workflow.Core
             _reloadWaitHandler.Set();
             _log.Debug("Unloaded InstanceId=" + args.InstanceId.ToString());
         }
-
         private void CompletedEvent(WorkflowApplicationCompletedEventArgs args)
         {
             _reloadWaitHandler.Set();
@@ -264,15 +265,19 @@ namespace Workflow.Core
             ActivityCompletedEvent?.Invoke(args);
         }
 
+        /// <summary>
+        /// Returns the IdleAction when this event is called.
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns>IdleAction</returns>
         private PersistableIdleAction AbleToPersistEvent(WorkflowApplicationIdleEventArgs args)
         {
             _reloadWaitHandler.Set();
-            _log.Debug("It's able to be persisted InstanceId=" + args.InstanceId.ToString());
+            _log.Debug($"It's able to be persisted InstanceId={args.InstanceId.ToString()} IdleAction={IdleAction}");
 
             ActivityWillBePersistedEvent?.Invoke(args);
 
-            //As soon as it can persist do this incase the application gets terminated.
-            return PersistableIdleAction.Persist;
+            return IdleAction;
         }
 
         private UnhandledExceptionAction UnhandledExceptionEvent(WorkflowApplicationUnhandledExceptionEventArgs args)
