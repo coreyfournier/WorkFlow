@@ -107,6 +107,7 @@
     <Compile Include="Stubs\ObservedChangeQueue.cs" />
     <Compile Include="Stubs\HostedListnerStub.cs" />
     <Compile Include="Stubs\SubscriberQueueStub.cs" />
+    <Compile Include="TypeConversionTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

@@ -80,6 +80,7 @@
     <Compile Include="Persistance\CompletedAsyncResult.cs" />
     <Compile Include="Persistance\InMemoryStore.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SeralizationFailedException.cs" />
     <Compile Include="Seralizer.cs" />
     <Compile Include="Utilities\PropertyAssistant.cs" />
     <Compile Include="Utilities\Retry.cs" />

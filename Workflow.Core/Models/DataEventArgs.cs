@@ -77,13 +77,32 @@ namespace Workflow.Core.Models
         /// Converts the Data XML to the native type. This was necessary because WCF wanted the exact type, but it's only know at the source and destination.
         /// </summary>
         /// <typeparam name="T">Type to convert to</typeparam>
-        /// <returns>Concrete type</returns>        
+        /// <returns>Concrete type</returns>       
+        /// <exception cref="SeralizationFailedException"></exception>
         public virtual T DataToType<T>()
         {
             if (Seralization == SeralizeAs.Xml)
-                return Seralizer.StringToObject<T>(Data);
+            {
+                try
+                {
+                    return Seralizer.StringToObject<T>(Data);
+                }
+                catch (System.InvalidOperationException ex)
+                {
+                    throw new SeralizationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
+                }
+            }
             else if (Seralization == SeralizeAs.Json)
-                return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Data);
+            {
+                try
+                {
+                    return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(Data);
+                }
+                catch (Newtonsoft.Json.JsonReaderException ex)
+                {
+                    throw new SeralizationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
+                }
+            }
             else
                 throw new InvalidOperationException("Unknown encoding type selected");
         }
