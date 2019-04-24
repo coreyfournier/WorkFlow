@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SG.Workflow")]
+[assembly: AssemblyTitle("Workflow.Core")]
 [assembly: AssemblyDescription("Contains wrapper and helper classes that stream line using Windows Workflow 4.5. They assist in database persistance when the workflow needs to persist as was as helping during reconstituting after an application shut down.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SG.Workflow")]
+[assembly: AssemblyProduct("Workflow.Core")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
