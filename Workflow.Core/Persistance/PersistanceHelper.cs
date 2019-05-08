@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Activities;
 using System.Activities.DurableInstancing;
 using System.Linq;
 using System.Runtime.DurableInstancing;
@@ -16,6 +17,11 @@ namespace Workflow.Core.Persistance
         /// </summary>
         private static PersistanceHelper _thisInstance = new PersistanceHelper("No-Version");
         private InstanceStore _store;
+
+        /// <summary>
+        /// What to do when an activity is recovered from running ReconstituteRunnableInstances and then is idle. 
+        /// </summary>
+        public static PersistableIdleAction IdleAction { get; set; } = PersistableIdleAction.Persist;
 
         /// <summary>
         /// SQL Persistance Database store. The connection in the store is also used in the Data context to get extra information from the database. This operation also sets the instance store owner.
@@ -117,9 +123,10 @@ namespace Workflow.Core.Persistance
                     {
                         using (ApplicationHelper application = new ApplicationHelper(item.GetActivity(), item.GetIdentity()))
                         {
+                            application.IdleAction = IdleAction;
                             try
                             {
-                                _log.Debug("Reloading InstanceId=" + item.InstanceId);
+                                _log.Debug($"Reloading InstanceId={item.InstanceId} IdleAction={IdleAction}");
                                 application.ReloadAndRun(item.InstanceId);
                             }
                             catch (InstanceLockedException ex)
