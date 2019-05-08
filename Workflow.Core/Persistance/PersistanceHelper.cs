@@ -75,6 +75,20 @@ namespace Workflow.Core.Persistance
         }
 
         /// <summary>
+        /// Removes the store owner upon application shut down. This allows another service to recover workflows from other machines.
+        /// This should be called from a dispose method in your application
+        /// </summary>
+        /// <param name="timeout"></param>
+        public static void RemoveStoreOwner(TimeSpan timeout)
+        {
+            var deleteOwner = new DeleteWorkflowOwnerCommand();
+            InstanceHandle handle = Store.CreateInstanceHandle();
+
+            Store.Execute(handle, deleteOwner, timeout);
+            handle.Free();
+        }            
+
+        /// <summary>
         /// Configure a Default Owner for the instance store so instances can be re-loaded from WorkflowApplication
         /// </summary>
         /// <param name="store">Database Store</param>
