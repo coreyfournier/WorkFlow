@@ -235,7 +235,7 @@ namespace Workflow.Core
 
         private void IdleEvent(WorkflowApplicationIdleEventArgs args)
         {
-            _log.Debug($"Idle InstanceId={args.InstanceId.ToString()} Unloading...");
+            _log.Debug($"Idle InstanceId={args.InstanceId.ToString()}");
 
             if (args.Bookmarks != null)
             {

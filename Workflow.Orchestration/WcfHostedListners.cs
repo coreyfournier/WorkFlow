@@ -111,7 +111,7 @@ namespace Workflow.Orchestration
         {            
             log4net.LogicalThreadContext.Properties["TransactionId"] = notification.Event.SourceTransactionId;
 
-            _log.Info($"Notifying Subscriber='{notification.Subscriber.SubscriberName}' via Workflow='{notification.Subscriber.WorkFlowType.FullName}'");            
+            _log.Info($"Notifying Subscriber='{notification.Subscriber.SubscriberName}' via Workflow='{notification.Subscriber.WorkFlowType.FullName}' IdleAction={IdleAction}");            
 
             using (ApplicationHelper application = new ApplicationHelper(notification.Subscriber.GetActivity(), notification.Subscriber.GetIdentity(), notification.Event, notification.Subscriber))
             {
