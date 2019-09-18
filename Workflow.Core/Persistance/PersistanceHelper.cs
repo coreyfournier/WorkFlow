@@ -120,7 +120,7 @@ namespace Workflow.Core.Persistance
         /// <param name="maxLockWaitInSeconds">Maximum allowed lockExpiration time to wait.</param>
         /// <param name="maxDegreeOfParallelism">How many to load at once.</param>
         /// <exception cref="System.Runtime.DurableInstancing.InstanceLockedException"></exception>
-        public static void ReconstituteRunnableInstances(int maxLockWaitInSeconds, int maxDegreeOfParallelism = 4)
+        public static void ReconstituteRunnableInstances(int maxLockWaitInSeconds = 30, int maxDegreeOfParallelism = 4)
         {
             var maxParallelization = new ParallelOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism };
 
