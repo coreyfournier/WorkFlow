@@ -117,9 +117,10 @@ namespace Workflow.Core.Persistance
         /// <summary>
         /// Find any workflows that are not completed and load them up to start running.  If an activity has found to have another owner, it will wait 30 seconds and try again to reload it. If a lock still exists an exception will bubble up.
         /// </summary>
+        /// <param name="maxLockWaitInSeconds">Maximum allowed lockExpiration time to wait.</param>
         /// <param name="maxDegreeOfParallelism">How many to load at once.</param>
         /// <exception cref="System.Runtime.DurableInstancing.InstanceLockedException"></exception>
-        public static void ReconstituteRunnableInstances(int maxDegreeOfParallelism = 4)
+        public static void ReconstituteRunnableInstances(int maxLockWaitInSeconds, int maxDegreeOfParallelism = 4)
         {
             var maxParallelization = new ParallelOptions { MaxDegreeOfParallelism = maxDegreeOfParallelism };
 
@@ -147,7 +148,7 @@ namespace Workflow.Core.Persistance
                             {
                                 var owner = GetOwnerInformation(ex.InstanceOwnerId);
                                 //If the lock is less then 30 seconds just sit back and relax and wait
-                                if (owner != null && owner.TimeToLockExpire < 30)
+                                if (owner != null && owner.TimeToLockExpire <= maxLockWaitInSeconds)
                                 {
                                     _log.Warn("Sleep thread to wait for the owner to expire then trying again", ex);
                                     System.Threading.Thread.Sleep((int)(owner.TimeToLockExpire + 5d) * 1000);
