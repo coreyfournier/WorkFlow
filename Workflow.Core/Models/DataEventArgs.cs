@@ -78,7 +78,7 @@ namespace Workflow.Core.Models
         /// </summary>
         /// <typeparam name="T">Type to convert to</typeparam>
         /// <returns>Concrete type</returns>       
-        /// <exception cref="SeralizationFailedException"></exception>
+        /// <exception cref="SerializationFailedException"></exception>
         public virtual T DataToType<T>()
         {
             if (Seralization == SeralizeAs.Xml)
@@ -89,7 +89,7 @@ namespace Workflow.Core.Models
                 }
                 catch (System.InvalidOperationException ex)
                 {
-                    throw new SeralizationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
+                    throw new SerializationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
                 }
             }
             else if (Seralization == SeralizeAs.Json)
@@ -100,7 +100,7 @@ namespace Workflow.Core.Models
                 }
                 catch (Newtonsoft.Json.JsonReaderException ex)
                 {
-                    throw new SeralizationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
+                    throw new SerializationFailedException($"Verify the type '{typeof(T)}' is the same type being passed in as the argument, otherwise check the inner exception", ex);
                 }
             }
             else

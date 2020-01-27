@@ -9,13 +9,13 @@ namespace Workflow.Core
     /// <summary>
     /// Thrown when seralization failed. One reason could be due to a type mismatch
     /// </summary>
-    public class SeralizationFailedException : Exception
+    public class SerializationFailedException : Exception
     {
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="message"></param>
         /// <param name="inner"></param>
-        public SeralizationFailedException(string message, Exception inner) : base(message, inner) { }
+        public SerializationFailedException(string message, Exception inner) : base(message, inner) { }
     }
 }

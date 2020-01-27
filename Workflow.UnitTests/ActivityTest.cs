@@ -23,7 +23,20 @@ namespace Workflow.UnitTests
         [TestMethod]
         public void ActivityExampleTest()
         {
-            var application = CreateApplication();
+            var eventArgs = new DataEventArgs<ObjectItem>(new ObjectItem()
+            {
+                Option1 = "This is option1",
+                Option2 = "This is option1"
+            })
+            {
+                EventDate = DateTime.Now,
+                SourceApiName = "",
+                SourceType = new TypeWrapper(),
+                SourceTransactionId = "Source-transactionId"
+            };
+
+            var activity = new Activity1();
+            var application = new ApplicationHelper(activity, activity.GetIdentity(), eventArgs);
             bool isCompleted = false;
             bool isGoingToBePersisted = false;
 
@@ -47,6 +60,10 @@ namespace Workflow.UnitTests
             Assert.IsTrue(isGoingToBePersisted);
         }
 
+        /// <summary>
+        /// Tests an activity that has a loop. 1 iteration of the loop will fail causing it to be persisted.
+        /// After it persists it will be resumed and the rest of the loop will complete.
+        /// </summary>
         [TestMethod]
         public void ActivityWithLoopExampleTest()
         {
@@ -84,25 +101,43 @@ namespace Workflow.UnitTests
             Assert.AreEqual(itemList.Length + 1 /*+1 for the zero offset.*/, FailOnceActivity.CallCount,"The activity didn't loop the expected number of times.");
         }
 
-
-        private ApplicationHelper CreateApplication()
+        /// <summary>
+        /// Same as the activity that fails with a loop, but upon seralization the in memory store will try to serialize the workflow and
+        /// should fail due to a class that doesn't have a default constructor.
+        /// </summary>
+        [TestMethod]
+        public void ActivityWithSerializationIssuesTest()
         {
-            var eventArgs = new DataEventArgs<ObjectItem>(new ObjectItem()
-            {
-                Option1= "This is option1",
-                Option2 = "This is option1"
-            })
+            var itemList = new int[] { 1, 2, 3, 4 };
+            var eventArgs = new DataEventArgs<int[]>(itemList)
             {
                 EventDate = DateTime.Now,
                 SourceApiName = "",
                 SourceType = new TypeWrapper(),
                 SourceTransactionId = "Source-transactionId"
             };
+            //Reset it.
+            FailOnceActivity.CallCount = 0;
+            var activity = new SeralizationError();
+            var application = new ApplicationHelper(activity, activity.GetIdentity(), eventArgs);
+            bool isGoingToBePersisted = false;
 
-            var activity = new Activity1();
-            
-            return new ApplicationHelper(activity, activity.GetIdentity(), eventArgs);
+            application.ActivityWillBePersistedEvent += (WorkflowApplicationIdleEventArgs args) =>
+            {
+                isGoingToBePersisted = true;
+                Assert.AreEqual(1, FailOnceActivity.CallCount, "Call count is not as expected, it should be persisted after it failed once.");
+            };
+
+            application.ActivityAbortedEvent += (WorkflowApplicationAbortedEventArgs args) =>
+            {
+                Assert.AreEqual(typeof(SerializationFailedException), args.Reason.GetType(),"Serialization wasn't the failure for some reason. This should have been caused by the lack of default consructor in CustomRepo.");
+            };        
+
+            FireWorkflow(application);
+
+            Assert.IsTrue(isGoingToBePersisted, "Workflow was never persisted which is required for it to serialize the data to complete the test.");
         }
+
 
 
         /// <summary>

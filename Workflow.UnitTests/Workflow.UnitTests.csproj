@@ -89,6 +89,8 @@
     <Compile Include="ObjectItem.cs" />
     <Compile Include="OrchestrationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Stubs\CustomRepo.cs" />
+    <Compile Include="Stubs\ICustomRepo.cs" />
     <Compile Include="Stubs\ObservedChangeQueue.cs" />
     <Compile Include="Stubs\HostedListnerStub.cs" />
     <Compile Include="Stubs\SubscriberQueueStub.cs" />
@@ -116,6 +118,15 @@
   </ItemGroup>
   <ItemGroup>
     <XamlAppDef Include="ActivityLoopWith1Error.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </XamlAppDef>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InstanceHelpers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamlAppDef Include="SeralizationErrorActivity.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </XamlAppDef>

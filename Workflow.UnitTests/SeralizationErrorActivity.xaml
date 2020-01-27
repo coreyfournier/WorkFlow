@@ -1,0 +1,191 @@
+﻿<Activity mc:Ignorable="sap sap2010 sads" x:Class="Workflow.UnitTests.SeralizationError"
+ xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities"
+ xmlns:av="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+ xmlns:local="clr-namespace:Workflow.UnitTests.Stubs"
+ xmlns:local1="clr-namespace:Workflow.UnitTests"
+ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+ xmlns:mca="clr-namespace:Microsoft.CSharp.Activities;assembly=System.Activities"
+ xmlns:s="clr-namespace:System;assembly=mscorlib"
+ xmlns:sads="http://schemas.microsoft.com/netfx/2010/xaml/activities/debugger"
+ xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation"
+ xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation"
+ xmlns:scg="clr-namespace:System.Collections.Generic;assembly=mscorlib"
+ xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=mscorlib"
+ xmlns:wc="clr-namespace:Workflow.Core;assembly=Workflow.Core"
+ xmlns:wcm="clr-namespace:Workflow.Core.Models;assembly=Workflow.Core"
+ xmlns:wcu="clr-namespace:Workflow.Core.Utilities;assembly=Workflow.Core"
+ xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+  <x:Members>
+    <x:Property Name="DataEventArgument" Type="InArgument(wcm:DataEventArgs)" />
+    <x:Property Name="SubscriberArgument" Type="InArgument(wcm:Subscriber)" />
+  </x:Members>
+  <sap2010:ExpressionActivityEditor.ExpressionActivityEditor>C#</sap2010:ExpressionActivityEditor.ExpressionActivityEditor>
+  <sap2010:WorkflowViewState.IdRef>Workflow.UnitTests.SeralizationError_1</sap2010:WorkflowViewState.IdRef>
+  <TextExpression.NamespacesForImplementation>
+    <sco:Collection x:TypeArguments="x:String">
+      <x:String>System</x:String>
+      <x:String>System.Collections.Generic</x:String>
+      <x:String>System.Data</x:String>
+      <x:String>System.Linq</x:String>
+      <x:String>System.Text</x:String>
+      <x:String>Workflow.Core.Models</x:String>
+      <x:String>Workflow.UnitTests.Stubs</x:String>
+    </sco:Collection>
+  </TextExpression.NamespacesForImplementation>
+  <TextExpression.ReferencesForImplementation>
+    <sco:Collection x:TypeArguments="AssemblyReference">
+      <AssemblyReference>log4net</AssemblyReference>
+      <AssemblyReference>Microsoft.CSharp</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.TestPlatform.TestFramework</AssemblyReference>
+      <AssemblyReference>Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions</AssemblyReference>
+      <AssemblyReference>PresentationCore</AssemblyReference>
+      <AssemblyReference>PresentationFramework</AssemblyReference>
+      <AssemblyReference>System</AssemblyReference>
+      <AssemblyReference>System.Activities</AssemblyReference>
+      <AssemblyReference>System.Activities.Core.Presentation</AssemblyReference>
+      <AssemblyReference>System.Activities.Presentation</AssemblyReference>
+      <AssemblyReference>System.Configuration</AssemblyReference>
+      <AssemblyReference>System.Core</AssemblyReference>
+      <AssemblyReference>System.Data</AssemblyReference>
+      <AssemblyReference>System.Drawing</AssemblyReference>
+      <AssemblyReference>System.Runtime.CompilerServices.Unsafe</AssemblyReference>
+      <AssemblyReference>System.Runtime.DurableInstancing</AssemblyReference>
+      <AssemblyReference>System.Runtime.Remoting</AssemblyReference>
+      <AssemblyReference>System.ServiceModel</AssemblyReference>
+      <AssemblyReference>System.ServiceModel.Activities</AssemblyReference>
+      <AssemblyReference>System.Web</AssemblyReference>
+      <AssemblyReference>System.Xaml</AssemblyReference>
+      <AssemblyReference>System.Xml</AssemblyReference>
+      <AssemblyReference>System.Xml.Linq</AssemblyReference>
+      <AssemblyReference>Unity.Abstractions</AssemblyReference>
+      <AssemblyReference>Unity.Container</AssemblyReference>
+      <AssemblyReference>WindowsBase</AssemblyReference>
+      <AssemblyReference>Workflow.Core</AssemblyReference>
+      <AssemblyReference>Workflow.Orchestration</AssemblyReference>
+      <AssemblyReference>ExternalLibrary</AssemblyReference>
+      <AssemblyReference>mscorlib</AssemblyReference>
+      <AssemblyReference>Workflow.UnitTests</AssemblyReference>
+    </sco:Collection>
+  </TextExpression.ReferencesForImplementation>
+  <Flowchart sap2010:WorkflowViewState.IdRef="Flowchart_1">
+    <Flowchart.Variables>
+      <Variable x:TypeArguments="local:ICustomRepo" Name="repoInstance">
+        <Variable.Default>
+          <mca:CSharpValue x:TypeArguments="local:ICustomRepo">new CustomRepo("Fake Input")</mca:CSharpValue>
+        </Variable.Default>
+      </Variable>
+    </Flowchart.Variables>
+    <Flowchart.StartNode>
+      <x:Reference>__ReferenceID0</x:Reference>
+    </Flowchart.StartNode>
+    <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_1">
+      <ForEach x:TypeArguments="x:Int32" sap2010:WorkflowViewState.IdRef="ForEach`1_1">
+        <ForEach.Values>
+          <InArgument x:TypeArguments="scg:IEnumerable(x:Int32)">
+            <mca:CSharpValue x:TypeArguments="scg:IEnumerable(x:Int32)">DataEventArgument.DataToType&lt;int[]&gt;()</mca:CSharpValue>
+          </InArgument>
+        </ForEach.Values>
+        <ActivityAction x:TypeArguments="x:Int32">
+          <ActivityAction.Argument>
+            <DelegateInArgument x:TypeArguments="x:Int32" Name="item" />
+          </ActivityAction.Argument>
+          <Sequence sap2010:WorkflowViewState.IdRef="Sequence_2">
+            <wcu:Retry sap2010:WorkflowViewState.IdRef="Retry_1" MaxAttempts="5" RetryInterval="00:00:05">
+              <wcu:Retry.Body>
+                <ActivityAction DisplayName="Activity to retry on error">
+                  <Sequence sap2010:WorkflowViewState.IdRef="Sequence_1">
+                    <wc:DebugWriteLine DisplayName="Start" sap2010:WorkflowViewState.IdRef="DebugWriteLine_1">
+                      <wc:DebugWriteLine.Text>
+                        <InArgument x:TypeArguments="x:String">
+                          <mca:CSharpValue x:TypeArguments="x:String">"Start working on item: " + item</mca:CSharpValue>
+                        </InArgument>
+                      </wc:DebugWriteLine.Text>
+                    </wc:DebugWriteLine>
+                    <InvokeMethod sap2010:WorkflowViewState.IdRef="InvokeMethod_1" MethodName="Basic1Operation">
+                      <InvokeMethod.TargetObject>
+                        <InArgument x:TypeArguments="local:ICustomRepo">
+                          <mca:CSharpValue x:TypeArguments="local:ICustomRepo">repoInstance</mca:CSharpValue>
+                        </InArgument>
+                      </InvokeMethod.TargetObject>
+                    </InvokeMethod>
+                    <local1:FailOnceActivity Text="{x:Null}" sap2010:WorkflowViewState.IdRef="FailOnceActivity_1" />
+                    <InvokeMethod sap2010:WorkflowViewState.IdRef="InvokeMethod_2" MethodName="Basic2Operation">
+                      <InvokeMethod.TargetObject>
+                        <InArgument x:TypeArguments="local:ICustomRepo">
+                          <mca:CSharpValue x:TypeArguments="local:ICustomRepo">repoInstance</mca:CSharpValue>
+                        </InArgument>
+                      </InvokeMethod.TargetObject>
+                    </InvokeMethod>
+                    <wc:DebugWriteLine DisplayName="Finish" sap2010:WorkflowViewState.IdRef="DebugWriteLine_2">
+                      <wc:DebugWriteLine.Text>
+                        <InArgument x:TypeArguments="x:String">
+                          <mca:CSharpValue x:TypeArguments="x:String">"Finished working on item: " + item</mca:CSharpValue>
+                        </InArgument>
+                      </wc:DebugWriteLine.Text>
+                    </wc:DebugWriteLine>
+                  </Sequence>
+                </ActivityAction>
+              </wcu:Retry.Body>
+              <wcu:Retry.ExceptionType>
+                <InArgument x:TypeArguments="s:Type[]">
+                  <mca:CSharpValue x:TypeArguments="s:Type[]">new Type[] { typeof(System.TimeoutException) }</mca:CSharpValue>
+                </InArgument>
+              </wcu:Retry.ExceptionType>
+            </wcu:Retry>
+          </Sequence>
+        </ActivityAction>
+      </ForEach>
+    </FlowStep>
+    <sads:DebugSymbol.Symbol>d21DOlxVc2Vyc1xjb3JleV9mb3VybmllclxTb3VyY2VcUmVwb3NcY29yZXlmb3VybmllclxXb3JrRmxvd1xXb3JrZmxvdy5Vbml0VGVzdHNcU2VyYWxpemF0aW9uRXJyb3JBY3Rpdml0eS54YW1sE0YDjAEPAgEBSgtKbgIBAlIHiQERAgEGVQ1VhgECASpcC4cBFgIBB10NhgEZAgEIXU5dUQIBKYMBE4MBfwIBJF1gXWoCASNgE34eAgEJYRVnKQIBHWgVbiQCARdvFW91AgEWcBV2JAIBEHcVfSkCAQpkG2R5AgEeaxtrbgIBGHMbc24CARF6G3p8AgEL</sads:DebugSymbol.Symbol>
+  </Flowchart>
+  <sap2010:WorkflowViewState.ViewStateManager>
+    <sap2010:ViewStateManager>
+      <sap2010:ViewStateData Id="DebugWriteLine_1" sap:VirtualizedContainerService.HintSize="217.6,22.4" />
+      <sap2010:ViewStateData Id="InvokeMethod_1" sap:VirtualizedContainerService.HintSize="217.6,131.2" />
+      <sap2010:ViewStateData Id="FailOnceActivity_1" sap:VirtualizedContainerService.HintSize="217.6,22.4" />
+      <sap2010:ViewStateData Id="InvokeMethod_2" sap:VirtualizedContainerService.HintSize="217.6,131.2" />
+      <sap2010:ViewStateData Id="DebugWriteLine_2" sap:VirtualizedContainerService.HintSize="217.6,22.4" />
+      <sap2010:ViewStateData Id="Sequence_1" sap:VirtualizedContainerService.HintSize="240,614.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Retry_1" sap:VirtualizedContainerService.HintSize="284.8,725.6" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="307.2,850.4">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="ForEach`1_1" sap:VirtualizedContainerService.HintSize="337.6,1001.6">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="FlowStep_1">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <av:Point x:Key="ShapeLocation">200,123.6</av:Point>
+            <av:Size x:Key="ShapeSize">200,52.8</av:Size>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Flowchart_1" sap:VirtualizedContainerService.HintSize="614.4,636.8">
+        <sap:WorkflowViewStateService.ViewState>
+          <scg:Dictionary x:TypeArguments="x:String, x:Object">
+            <x:Boolean x:Key="IsExpanded">False</x:Boolean>
+            <av:Point x:Key="ShapeLocation">270,2.5</av:Point>
+            <av:Size x:Key="ShapeSize">60,75.2</av:Size>
+            <av:PointCollection x:Key="ConnectorLocation">300,77.7 300,123.6</av:PointCollection>
+          </scg:Dictionary>
+        </sap:WorkflowViewStateService.ViewState>
+      </sap2010:ViewStateData>
+      <sap2010:ViewStateData Id="Workflow.UnitTests.SeralizationError_1" sap:VirtualizedContainerService.HintSize="654.4,716.8" />
+    </sap2010:ViewStateManager>
+  </sap2010:WorkflowViewState.ViewStateManager>
+</Activity>

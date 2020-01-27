@@ -26,7 +26,7 @@ namespace Workflow.UnitTests
         /// <summary>
         /// This should fail with an exception as the type is different between the args and the convert type
         /// </summary>
-        [TestMethod, ExpectedException(typeof(SeralizationFailedException))]
+        [TestMethod, ExpectedException(typeof(SerializationFailedException))]
         public void ConvertType_Failure_XML()
         {
             var args1 = new Workflow.Core.Models.DataEventArgs<CustomType>(                
@@ -43,7 +43,7 @@ namespace Workflow.UnitTests
         /// <summary>
         /// This should fail with an exception as the type is different between the args and the convert type
         /// </summary>
-        [TestMethod, ExpectedException(typeof(SeralizationFailedException))]
+        [TestMethod, ExpectedException(typeof(SerializationFailedException))]
         public void ConvertType_Failure_JSON()
         {
             var args1 = new Workflow.Core.Models.DataEventArgs<CustomType>(
